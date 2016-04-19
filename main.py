@@ -9,7 +9,7 @@ color = [ 0, 255, 0 ]
 edges = []
 transform = new_matrix()
 
-f=open("script_3d","r")
+f=open("myrobot","r")
 if len(sys.argv) == 2:
     f = open(sys.argv[1])
 

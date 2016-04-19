@@ -2,7 +2,7 @@ from display import *
 from matrix import *
 from draw import *
 
-ARG_COMMANDS = [ 'line', 'scale', 'translate', 'xrotate', 'yrotate', 'zrotate', 'circle', 'bezier', 'hermite', 'sphere', 'box', 'torus', 'push']
+ARG_COMMANDS = [ 'line', 'scale', 'translate', 'xrotate', 'yrotate', 'zrotate', 'circle', 'bezier', 'hermite', 'sphere', 'box', 'torus',]
 
 def parse_file( f, points, transform, screen, color ):
 
@@ -15,6 +15,7 @@ def parse_file( f, points, transform, screen, color ):
             c+= 1
             args = commands[c].strip().split(' ')
             i = 0
+            print transform
             while i < len( args ):
                 args[i] = float( args[i] )
                 i+= 1
