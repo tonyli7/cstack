@@ -1,0 +1,35 @@
+push
+translate
+400 250 0
+yrotate
+30
+xrotate
+30
+box
+-100 150 25 100 150 50
+sphere
+-50 180 30
+box
+0 220 10 25 100 25
+box
+-125 220 10 25 100 25
+sphere
+-320 0 50
+torus
+-320 -100 25 100
+push
+yrotate
+30
+xrotate 
+-15
+box
+-75 -30 -10 25 100 25
+box
+-200 -60 -10 25 100 25
+push
+translate 
+-300 -60 0
+bezier
+-200 0 -190 400 -10 400 200 220
+display
+quit

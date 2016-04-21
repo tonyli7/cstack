@@ -2,12 +2,11 @@ from display import *
 from matrix import *
 from draw import *
 
-ARG_COMMANDS = [ 'line', 'scale', 'translate', 'xrotate', 'yrotate', 'zrotate', 'circle', 'bezier', 'hermite', 'sphere', 'box', 'torus',]
+ARG_COMMANDS = [ 'line', 'scale', 'translate', 'xrotate', 'yrotate', 'zrotate', 'circle', 'bezier', 'hermite', 'sphere', 'box', 'torus']
 
 def parse_file( f, points, transform, screen, color ):
 
     commands = f.readlines()
-
     c = 0
     while c  <  len(commands):
         cmd = commands[c].strip()
@@ -72,7 +71,7 @@ def parse_file( f, points, transform, screen, color ):
                 
                 matrix_mult( transform[-1], t )
                 transform[-1] = t
-
+                
             else:
                 angle = args[0] * ( math.pi / 180 )
                 if cmd == 'xrotate':
@@ -95,7 +94,7 @@ def parse_file( f, points, transform, screen, color ):
             
         elif cmd == 'pop':
             transform.pop()
-            
+
         elif cmd == 'clear':
             points = []
 
