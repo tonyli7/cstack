@@ -15,60 +15,63 @@ def parse_file( f, points, transform, screen, color ):
             c+= 1
             args = commands[c].strip().split(' ')
             i = 0
-            print transform
+            
             while i < len( args ):
                 args[i] = float( args[i] )
                 i+= 1
 
             if cmd == 'line':
                 add_edge( points, args[0], args[1], args[2], args[3], args[4], args[5] )
-                matrix_mult(points, transform[-1::])
+                matrix_mult(transform[-1], points)
                 draw_lines(points,screen,color)
-                points[:]=[]
+                points=[]
                 
             elif cmd == 'circle':
                 add_circle( points, args[0], args[1], 0, args[2], .01 )
-                matrix_mult(points, transform[-1::])
+                matrix_mult(transform[-1],points)
                 draw_lines(points,screen,color)
-                points[:]=[]
+                points=[]
                 
             elif cmd == 'bezier':
                 add_curve( points, args[0], args[1], args[2], args[3], args[4], args[5], args[6], args[7], .01, 'bezier' )
-                matrix_mult(points, transform[-1::])
+                matrix_mult(transform[-1], points)
                 draw_lines(points,screen,color)
-                points[:]=[]
+                points=[]
                 
             elif cmd == 'hermite':
                 add_curve( points, args[0], args[1], args[2], args[3], args[4], args[5], args[6], args[7], .01, 'hermite' )
-                matrix_mult(points, transform[-1::])
+                matrix_mult(transform[-1], points)
                 draw_lines(points,screen,color)
-                points[:]=[]
+                points=[]
                 
             elif cmd == 'sphere':
                 add_sphere( points, args[0], args[1], 0, args[2], 5 )
-                matrix_mult(points, transform[-1::])
+                matrix_mult(transform[-1], points)
                 draw_polygons(points,screen,color)
-                points[:]=[]
+                points=[]
                 
             elif cmd == 'torus':
                 add_torus( points, args[0], args[1], 0, args[2], args[3], 5 )
-                matrix_mult(points, transform[-1::])
+                matrix_mult(transform[-1], points)
                 draw_polygons(points,screen,color)
-                points[:]=[]
+                points=[]
                 
             elif cmd == 'box':
                 add_box( points, args[0], args[1], args[2], args[3], args[4], args[5] )
-                matrix_mult(points, transform[-1::])
+                matrix_mult(transform[-1], points)
                 draw_polygons(points,screen,color)
-                points[:]=[]
+                points=[]
 
             elif cmd == 'scale':
                 s = make_scale( args[0], args[1], args[2] )
-                matrix_mult( s, transform[-1::] )
+                matrix_mult(transform[-1], s)
+                transform[-1] = s
 
             elif cmd == 'translate':
                 t = make_translate( args[0], args[1], args[2] )
-                matrix_mult( t, transform[-1::] )
+                
+                matrix_mult( transform[-1], t )
+                transform[-1] = t
 
             else:
                 angle = args[0] * ( math.pi / 180 )
@@ -78,7 +81,8 @@ def parse_file( f, points, transform, screen, color ):
                     r = make_rotY( angle )
                 elif cmd == 'zrotate':
                     r = make_rotZ( angle )
-                matrix_mult( r, transform[-1::] )
+                matrix_mult( transform[-1], r)
+                transform[-1] = r
 
         elif cmd == 'ident':
             ident( transform )
@@ -87,7 +91,7 @@ def parse_file( f, points, transform, screen, color ):
             matrix_mult( transform, points )
             
         elif cmd == 'push':
-            transform.append(transform[-1::])
+            transform.append(transform[-1])
             
         elif cmd == 'pop':
             transform.pop()
@@ -96,11 +100,12 @@ def parse_file( f, points, transform, screen, color ):
             points = []
 
         elif cmd in ['display', 'save' ]:
-            screen = new_screen()
+            
             #draw_polygons( points, screen, color )
             
             if cmd == 'display':
                 display( screen )
+                screen = new_screen()
 
             elif cmd == 'save':
                 c+= 1
